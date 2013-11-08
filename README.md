@@ -20,9 +20,10 @@ Or install it yourself as:
 
 ```ruby
 expect("moo".required!).to_not raise_error
+expect(required! "moo").to_not raise_error
+
 expect("".required!).to raise_error
 expect(nil.required!).to raise_error
-expect(required! "moo").to_not raise_error
 expect(required! nil).to raise_error
 ```
 
