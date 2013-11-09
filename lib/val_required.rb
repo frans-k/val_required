@@ -1,7 +1,7 @@
 # TODO: remove dependency
 require 'active_support/core_ext/object/blank'
 
-module Required
+module ValRequired
   module Method
     def required! val=nil
       if block_given?
@@ -25,5 +25,5 @@ module Required
 end
 
 class Object
-  include Required::Method
+  include ValRequired::Method
 end

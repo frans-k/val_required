@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'required/version'
+require 'val_required/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "required"
-  spec.version       = Required::VERSION
+  spec.name          = "val_required"
+  spec.version       = ValRequired::VERSION
   spec.authors       = ["Frans Krojegård"]
   spec.email         = ["frans@krojegard.com"]
   spec.description   = %q{TODO: Write a gem description}
