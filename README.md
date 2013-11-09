@@ -1,12 +1,12 @@
-# Required
+# Required!
 
-This gem adds the method required!(val) to main object as well as val.required!. See usage.
+This gem adds the methods required!(val) to main object as well as val.required!. See usage.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'required'
+    gem 'val_required'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install required
+    $ gem install val_required
 
 ## Usage
 
