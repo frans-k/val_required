@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = ValRequired::VERSION
   spec.authors       = ["Frans Krojegård"]
   spec.email         = ["frans@krojegard.com"]
-  spec.description   = "A gem to require variables to have a value, otherwise raises an error."
-  spec.summary       = "expect(''.required!).to raise_error(ValRequired::BlankError)"
+  spec.description   = "expect(''.required!).to raise_error(ValRequired::BlankError)"
+  spec.summary       = "A helper method to require values to be set."
   spec.homepage      = "https://github.com/frunns/val_required"
   spec.license       = "MIT"
 
