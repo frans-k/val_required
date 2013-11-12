@@ -11,7 +11,7 @@ def fails val
   expect { does_not_fail(val) }.to raise_error
 end
 
-describe Required do
+describe ValRequired do
   it { does_not_fail "moo" }
   it { does_not_fail 2 }
   it { does_not_fail 0 }
@@ -21,16 +21,8 @@ describe Required do
 
   it "takes a block" do
     user = OpenStruct.new(moo: "mo", fish: "")
-    expect do
-      user.required! do |u|
-        u.fish
-      end
-    end.to raise_error
+    expect { user.required!(&:fish) }.to raise_error
 
-    expect do
-      user.required! do |u|
-        u.moo
-      end
-    end.to_not raise_error
+    expect { user.required!(&:moo) }.to_not raise_error
   end
 end
