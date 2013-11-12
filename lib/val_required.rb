@@ -3,13 +3,15 @@ require 'active_support/core_ext/object/blank'
 
 module ValRequired
   module Method
-    def required! val=nil
+    def required!(val = (val_not_set = true; nil))
       if block_given?
         yield(RequiredHelper.new(self))
-      elsif self.class == Object
+      elsif !val_not_set
         raise BlankError.new("argument is blank!") if val.blank?
+        val
       else
         raise BlankError.new("object is blank") if self.blank?
+        self
       end
     end
   end

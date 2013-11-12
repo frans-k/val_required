@@ -8,7 +8,8 @@ def does_not_fail val
 end
 
 def fails val
-  expect { does_not_fail(val) }.to raise_error
+  expect { val.required! }.to raise_error(ValRequired::BlankError)
+  expect { required!(val) }.to raise_error(ValRequired::BlankError)
 end
 
 describe ValRequired do
