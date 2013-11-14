@@ -2,53 +2,52 @@ require 'spec_helper'
 
 require 'ostruct'
 
-def does_not_fail val
-  expect { required! val }.to_not raise_error
-  expect { val.required! }.to_not raise_error
-end
-
-def fails val
-  expect { val.required! }.to raise_error(ValRequired::BlankError)
-  expect { required!(val) }.to raise_error(ValRequired::BlankError)
-end
-
 describe ValRequired do
-  it { does_not_fail "moo" }
-  it { does_not_fail 2 }
-  it { does_not_fail 0 }
+  describe ".set?" do
+    def set? obj
+      ValRequired.set?(obj)
+    end
 
-  it { fails nil }
-  it { fails "" }
+    def set! obj
+      expect(set? obj).to be_true
+    end
+
+    def not_set! obj
+      expect(set? obj).to be_false
+    end
+
+    it { set! "token" }
+    it { set! 2 }
+    it { set! 0 }
+    it { set! false }
+    it { set! true }
+    it { set! [] }
+    it { set!({}) }
+
+    it { not_set! nil }
+    it { not_set! "" }
+    it { not_set! " " }
+  end
 
   it "works with assignment" do
-    m = "moo".required!
-    expect(m).to eq "moo"
-
-    expect { required!("") }.to raise_error
-
-    m = required!("moo")
-    expect(m).to eq "moo"
+    expect("token".required!).to eq "token"
   end
 
   it "takes a block" do
-    user = OpenStruct.new(moo: "mo", fish: "")
+    user = OpenStruct.new(email: "", name: "Arnold")
 
-    expect { user.required!(&:fish) }.to raise_error
-    expect { user.required!(&:moo) }.to_not raise_error
+    expect { required!(user, &:email) }.to raise_error(ValRequired::BlankError, /email/)
+    expect { required!(user, &:name) }.to_not raise_error
   end
 
   it "takes an assignment block (config style)" do
     config = OpenStruct.new
-    required! do
-      config.moo = "moo"
-    end
+    required!(config) {|config| config.service_token = "token" }
 
-    expect(config.moo).to eq "moo"
+    expect(config.service_token).to eq "token"
 
     expect do
-      config.required! do |c|
-        c.moo = ""
-      end
-    end.to raise_error
+      required!(config) {|c| c.service_token = "" }
+    end.to raise_error(ValRequired::BlankError, /service_token=/)
   end
 end

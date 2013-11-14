@@ -9,22 +9,23 @@ module ValRequired
   end
 
   module Method
-    def required!(val = (val_not_set = true; nil))
+    def required!(context=nil)
       if block_given?
-        yield(RequiredHelper.new(self))
-      elsif val_not_set
-        raise BlankError.new("object is blank") unless ValRequired.set?(self)
+        yield(RequiredHelper.new(context.required!))
         self
       else
-        raise BlankError.new("argument is blank!") unless ValRequired.set?(val)
-        val
+        raise BlankError.new("Object is not set: #{self.inspect}") unless ValRequired.set?(self)
+        self
       end
     end
   end
 
   class RequiredHelper < Struct.new(:obj)
     def method_missing method, *args
-      obj.send(method, *args).required!
+      (res = obj.send(method, *args)).required!
+
+    rescue BlankError
+      raise BlankError, "#{method} returned #{res.inspect}"
     end
   end
 
