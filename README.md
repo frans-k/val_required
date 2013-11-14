@@ -27,7 +27,7 @@ expect(nil.required!).to raise_error
 expect(required! nil).to raise_error
 
 expect do
-  required! do
+  config.required! do |config|
     config.api_service_token = "TOKEN" # Raises an error if #blank?
   end
 end.to_not raise_error
