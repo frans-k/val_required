@@ -1,17 +1,23 @@
-# TODO: remove dependency
-require 'active_support/core_ext/object/blank'
-
 module ValRequired
+  # Returns false unless non-empty String or other non-nil object.
+  def self.set? obj
+    if obj.instance_of? String
+      !!(obj =~ /\S/)
+    else
+      !obj.nil?
+    end
+  end
+
   module Method
     def required!(val = (val_not_set = true; nil))
       if block_given?
         yield(RequiredHelper.new(self))
-      elsif !val_not_set
-        raise BlankError.new("argument is blank!") if val.blank?
-        val
-      else
-        raise BlankError.new("object is blank") if self.blank?
+      elsif val_not_set
+        raise BlankError.new("object is blank") unless ValRequired.set?(self)
         self
+      else
+        raise BlankError.new("argument is blank!") unless ValRequired.set?(val)
+        val
       end
     end
   end
