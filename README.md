@@ -1,6 +1,6 @@
 # Required!
 
-This gem adds the methods required!(val) to main object as well as val.required!. See usage.
+This gem adds the method #required! to Object, raises an error if nil or String that doesn't match /\S/, otherwise returns self.
 
 ## Installation
 
@@ -19,16 +19,20 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-expect("moo".required!).to_not raise_error
-expect(required! "moo").to_not raise_error
+expect(ValRequired.set?(nil)).to be_false
+expect(ValRequired.set?("")).to be_false
+expect(ValRequired.set?(" ")).to be_false
+# Otherwise true
+
+expect("token".required!).to_not raise_error
 
 expect("".required!).to raise_error
 expect(nil.required!).to raise_error
-expect(required! nil).to raise_error
 
+# The return value for each method on c is checked against ValRequired.set?
 expect do
-  config.required! do |config|
-    config.api_service_token = "TOKEN" # Raises an error if #blank?
+  required(config)! do |c|
+    c.api_service_token = "TOKEN"
   end
 end.to_not raise_error
 ```
