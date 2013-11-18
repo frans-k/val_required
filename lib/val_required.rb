@@ -12,11 +12,10 @@ module ValRequired
     def required!(context=nil)
       if block_given?
         yield(RequiredHelper.new(context.required!))
-        self
       else
         raise BlankError.new("Object is not set: #{self.inspect}") unless ValRequired.set?(self)
-        self
       end
+      self
     end
   end
 
